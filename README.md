@@ -1,5 +1,8 @@
 # AngularFlight
 
+Use **admin** for username and password
+Vist [Angular Flight](https://angular-flight.netlify.app/) to view demo
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.7.
 
 ## Development server
