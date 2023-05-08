@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { OpenskyApiService } from '../../services/opensky-api.service';
 import { forkJoin, of as observableOf } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 export interface Flight {
   airport: string;
@@ -15,26 +16,42 @@ export interface Flight {
   templateUrl: './dashbord.component.html',
 })
 export class DashbordComponent {
-  begin = Math.floor(Date.now() / 1000) - 7200;
-  end = Math.floor(Date.now() / 1000);
+  begin: number;
+  end: number;
+  maxDate: string = new Date().toISOString().split('Z')[0];
   isLoading: boolean = true;
   flights: Flight[] = [];
   page = 0;
   startIndex: number;
   endIndex: number;
-
-  constructor(private openskyApiService: OpenskyApiService) {}
+  setFlightStart = (value) => {
+    if (value) {
+      console.log({ now: Date.now(), time: new Date(value).getTime() });
+      this.begin = Math.floor(new Date(value).getTime() / 1000);
+      this.end = this.begin + 7200;
+      this.getFlights();
+    } else {
+      this.end = Math.floor(Date.now() / 1000);
+      this.begin = this.end - 7200;
+    }
+  };
+  constructor(
+    private openskyApiService: OpenskyApiService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
+    this.setFlightStart('');
     this.getFlights();
   }
 
   private getFlights() {
+    this.isLoading = true;
     forkJoin({
       flights: this.openskyApiService.getAllFlights(this.begin, this.end),
     })
       .pipe(
-        catchError(() => observableOf(null)),
+        catchError((err) => observableOf(err)),
         map(({ flights }: { flights: any[] }) => {
           // Flip flag to show that loading has finished.
           this.isLoading = false;
@@ -103,9 +120,16 @@ export class DashbordComponent {
           return Object.values(mergedArr);
         })
       )
-      .subscribe((data: Flight[]) => {
-        this.flights = data.sort((x, y) => x.time - y.time);
-        this.calculateIndices();
+      .subscribe({
+        next: (data: Flight[]) => {
+          this.flights = data.sort((x, y) => x.time - y.time);
+          this.calculateIndices();
+          this.toastr.success('Airport records pulled successfully');
+        },
+        error: (err) =>
+          this.toastr.error(
+            'No Airport record found for your request please choose try a different start time'
+          ),
       });
   }
   handlePageChange = (str: string) => {

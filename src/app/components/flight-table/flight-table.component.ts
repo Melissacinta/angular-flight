@@ -38,7 +38,10 @@ import { Flight } from 'src/app/pages/dashbord/dashbord.component';
             </tr>
           </thead>
 
-          <tbody class="divide-y divide-gray-200 bg-white font-serif w-full">
+          <tbody
+            *ngIf="data"
+            class="divide-y divide-gray-200 bg-white font-serif w-full"
+          >
             <tr
               *ngFor="
                 let flight of data | slice : start - 1 : end;
