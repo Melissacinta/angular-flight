@@ -1,0 +1,19 @@
+<div class="min-h-full">
+  <app-header [begin]="begin" [end]="end"></app-header>
+  <main class="px-4 sm:px-6 lg:px-8 -mt-32">
+    <div class="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
+      <div class="mt-8 flow-root">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <app-flight-table
+            [data]="flights"
+            [page]="page"
+            [isLoading]="isLoading"
+            [handlePageChange]="handlePageChange"
+            [start]="startIndex"
+            [end]="endIndex"
+          ></app-flight-table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,44 @@
+:host {
+  background-color: #FFF;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 6px;
+  padding: 10px 10px 10px 10px;
+  width: 300px;
+  border-radius: 3px 3px 3px 3px;
+  color: #000;
+  pointer-events: all;
+  cursor: pointer;
+  display: block;
+
+}
+
+:host.toast-info {
+  border-left: 4px solid #04c4f3;
+}
+
+:host.toast-success {
+  border-left: 4px solid #51d21a;
+}
+
+:host.toast-error {
+  border-left: 4px solid red;
+}
+
+.toast-close-button {
+  color: #999;
+  opacity: 1;
+
+}
+
+.toast-close-button:hover {
+  color: #02ceff;
+}
+
+/* .custom-title {
+  color: #111;
+}
+
+.custom-message {
+  color: #333;
+} */
