@@ -96,7 +96,6 @@ export class FlightTableComponent {
   @Input() handlePageChange: (type: string) => void;
 
   changePage(message: string): void {
-    console.log(message);
     // Handle the event in the parent component
     this.handlePageChange(message);
   }

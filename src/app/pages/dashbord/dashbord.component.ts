@@ -26,7 +26,6 @@ export class DashbordComponent {
   endIndex: number;
   setFlightStart = (value) => {
     if (value) {
-      console.log({ now: Date.now(), time: new Date(value).getTime() });
       this.begin = Math.floor(new Date(value).getTime() / 1000);
       this.end = this.begin + 7200;
       this.getFlights();
@@ -133,8 +132,6 @@ export class DashbordComponent {
       });
   }
   handlePageChange = (str: string) => {
-    console.log({ str });
-
     if (str === 'prev') {
       this.page--;
     } else {
